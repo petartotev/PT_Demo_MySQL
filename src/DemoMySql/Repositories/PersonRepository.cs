@@ -63,22 +63,32 @@ public class PersonRepository
         return null;
     }
 
-    public void Create(PersonEntity personEntity)
+    public int Create(PersonEntity personEntity)
     {
+        int personIdCreated = -1;
+
         using (var connection = new MySqlConnection(_connectionString))
         {
             connection.Open();
 
             string query = "INSERT INTO TestDb.Person (FirstName, LastName, City, Address, Age, IsMale) " +
-                           "VALUES (@FirstName, @LastName, @City, @Address, @Age, @IsMale)";
+                           "VALUES (@FirstName, @LastName, @City, @Address, @Age, @IsMale);" +
+                           "SELECT LAST_INSERT_ID();";
 
-            using (MySqlCommand cmd = new MySqlCommand(query, connection))
+            using (var cmd = new MySqlCommand(query, connection))
             {
                 MapPersonEntityToParameters(personEntity, cmd);
 
-                cmd.ExecuteNonQuery();
+                object result = cmd.ExecuteScalar();
+
+                if (result != null && int.TryParse(result.ToString(), out personIdCreated))
+                {
+                    Console.WriteLine($"Repository created Person with PersonId {personIdCreated}!\n");
+                }
             }
         }
+
+        return personIdCreated;
     }
 
     public void Update(PersonEntity personEntity)

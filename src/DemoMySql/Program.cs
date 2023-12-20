@@ -35,15 +35,16 @@ public class Program
             IsMale = true
         };
 
-        repository.Create(personEntity);
-        Console.WriteLine("Person created!\n");
+        var personId = repository.Create(personEntity);
 
-        var personCreated = repository.GetByPersonId(8);
+        Console.WriteLine($"Person with PersonId {personId} was created!\n");
+
+        var personCreated = repository.GetByPersonId(personId);
 
         Console.WriteLine(personCreated != null ? personCreated.ToString() : "Person not found.\n");
 
         // ========================= Update =========================
-        var personExisting = repository.GetByPersonId(8);
+        var personExisting = repository.GetByPersonId(personId);
 
         if (personExisting != null)
         {
@@ -63,12 +64,12 @@ public class Program
             Console.WriteLine("Person not found for update.\n");
         }
 
-        var personUpdated = repository.GetByPersonId(8);
+        var personUpdated = repository.GetByPersonId(personId);
 
         Console.WriteLine(personUpdated != null ? personUpdated.ToString() : "Person not found.\n");
 
         // ========================= Delete =========================
-        var personIdToDelete = 8;
+        var personIdToDelete = personId;
         repository.Delete(personIdToDelete);
         Console.WriteLine($"Person with PersonId {personIdToDelete} deleted.\n");
 
