@@ -12,11 +12,6 @@ public class PersonEntity
     public int Age { get; set; }
     public bool IsMale { get; set; }
 
-    public static char GetGenderLetterByIsMaleBool(bool isMale)
-    {
-        return isMale ? 'M' : 'F';
-    }
-
     public override string ToString()
     {
         return new StringBuilder()
@@ -26,5 +21,10 @@ public class PersonEntity
             .AppendLine($"Gender: " + GetGenderLetterByIsMaleBool(IsMale))
             .AppendLine($"Address: {City}, {Address}")
             .ToString();
+    }
+
+    private static char GetGenderLetterByIsMaleBool(bool isMale)
+    {
+        return isMale ? 'M' : 'F';
     }
 }

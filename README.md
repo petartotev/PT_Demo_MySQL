@@ -5,6 +5,8 @@
 - [Docker Setup](#docker-setup)
 - [Database Setup](#database-setup)
 - [Application Setup](#application-setup)
+    - [Using Data.MySql Client](#using-datamysql-client)
+    - [Using Dapper](#using-dapper)
 - [Links](#links)
 
 ## Docker Setup
@@ -111,9 +113,31 @@ VALUES('Louis', 'Armstrong', '1 Utah jazz str.', 'New Orleans', 1234, 1);
 
 ## Application Setup
 
-8. Create a .NET Console Application with the latest `MySql.Data NuGet` package installed.<br>Implement a PersonRepository containing all necessary CRUD methods.
+8. Create a new .NET Console Application having Client.cs class that will contain all Repositories implemented in the demos that follow.
 
-9. Execute the .NET Console Application in order to test GetAll, GetById, Create, Update, Delete queries using PersonRepository.
+### Using Data.MySql Client
+
+9. Install the following NuGet package:
+
+```
+dotnet add package MySql.Data
+```
+
+10. Implement `PersonMySqlDataRepository.cs` containing all necessary CRUD methods using `MySql.Data` NuGet package.
+
+11. Execute the `client.ExperimentWithMySqlDataRepo()` through `Program.cs` in order to test the methods.
+
+### Using Dapper
+
+9. Install the following NuGet package:
+
+```
+dotnet add package Dapper
+```
+
+10. Implement `PersonDapperRepository.cs` containing all necessary CRUD methods using `Dapper` NuGet package.
+
+11. Execute the `client.ExperimentDapperRepo()` through `Program.cs` in order to test the methods.
 
 ## Links
 - https://ganeshchandrasekaran.com/dbeaver-public-key-retrieval-is-not-allowed-77eba055bbcd
