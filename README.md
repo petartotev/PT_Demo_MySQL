@@ -7,6 +7,8 @@
 - [Application Setup](#application-setup)
     - [Using Data.MySql Client](#using-datamysql-client)
     - [Using Dapper](#using-dapper)
+- [Known Issues](#known-issues)
+    - [Option Not Supported](#option-not-supported)
 - [Links](#links)
 
 ## Docker Setup
@@ -139,5 +141,27 @@ dotnet add package Dapper
 
 11. Execute the `client.ExperimentDapperRepo()` through `Program.cs` in order to test the methods.
 
+## Known Issues
+
+### Option not supported
+
+In case your .NET application is using `MySql.Data` (and not `Dapper`) and you are using options in the connection string like `checkparameters` or `Procedure Cache Size`, `option not supported` error might occur:
+
+```
+Data Source=mysql;User Id=test;Password=adminadmin;Procedure Cache Size=10000;checkparameters=true;
+```
+
+⚠️ ERROR:
+```
+System.ArgumentException : Option 'procedure cache size' not supported.
+System.ArgumentException : Option 'checkparameters' not supported.
+```
+
+✅ FIX:
+
+Use `Dapper` instead of `MySql.Data`
+
 ## Links
 - https://ganeshchandrasekaran.com/dbeaver-public-key-retrieval-is-not-allowed-77eba055bbcd
+- https://stackoverflow.com/questions/1772025/sql-data-reader-handling-null-column-values
+- https://stackoverflow.com/questions/55448558/option-not-supported-error-when-using-sql-server-with-mysql
