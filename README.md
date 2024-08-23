@@ -168,7 +168,7 @@ CREATE TABLE MyEvent
 CREATE INDEX IX_MyEvent_CreatedAt ON MyEvent (CreatedAt);
 ```
 
-2. Insert into TABLE `MyEvent`:
+2. INSERT into TABLE `MyEvent`:
 
 ```
 INSERT INTO MyDatabase.MyEvent (MyEventTypeId, JsonDetails, CreatedAt) 
@@ -185,9 +185,9 @@ CREATE UNIQUE INDEX idx_unique_eventid ON MyEvent(ExtractedEventId);
 
 ✅ This will create new COLUMN `ExtractedEventId` and auto-fill values from COLUMN `JsonDetails`.
 
-4. Try to insert the same row from step 2
+4. Try to INSERT the same row from step 2:
 
-
+❌ ERROR: Error Code: 1062. Duplicate entry '363636' for key 'MyEvent.idx_unique_eventid'
 
 ## Known Issues
 
