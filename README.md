@@ -7,6 +7,8 @@
 - [Application Setup](#application-setup)
     - [Using Data.MySql Client](#using-datamysql-client)
     - [Using Dapper](#using-dapper)
+- [Demos](#demos)
+    - [Demo ADD COLUMN GENERATED](#demo-add-column-generated)
 - [Known Issues](#known-issues)
     - [Option Not Supported](#option-not-supported)
 - [Links](#links)
@@ -140,6 +142,52 @@ dotnet add package Dapper
 10. Implement `PersonDapperRepository.cs` containing all necessary CRUD methods using `Dapper` NuGet package.
 
 11. Execute the `client.ExperimentDapperRepo()` through `Program.cs` in order to test the methods.
+
+## Demos
+
+### Demo ADD COLUMN GENERATED
+
+0. Create new DATABASE MyDatabase:
+
+```
+CREATE DATABASE MyDatabase
+```
+
+1. Create new TABLE MyEvent:
+
+```
+CREATE TABLE MyEvent
+(
+	MyEventId     BIGINT     UNSIGNED NOT NULL AUTO_INCREMENT
+   ,MyEventTypeId TINYINT    UNSIGNED NOT NULL
+   ,JsonDetails              JSON                NOT NULL
+   ,CreatedAt             DATETIME            NOT NULL DEFAULT NOW()
+   ,PRIMARY KEY (MyEventId)
+);
+
+CREATE INDEX IX_MyEvent_CreatedAt ON MyEvent (CreatedAt);
+```
+
+2. Insert into TABLE `MyEvent`:
+
+```
+INSERT INTO MyDatabase.MyEvent (MyEventTypeId, JsonDetails, CreatedAt) 
+VALUES (1, '{"UserId": 232323, "EventId": 363636, "EventType": 1, "Properties": {"Amount": 5, "Product": "Soap", "Username": "iamgroot", "ThingId": "505050", "EmailHost": "gmail.com", "EmailAddress": "iamgroot@gmail.com", "PaymentMethod": {"PaymentType": "Money", "PaymentGateway": "Gates of Hell"}, "CurrentStatus": "pending" }}', '2024-01-22 10:22:15');
+```
+
+3. Alter TABLE `MyEvent` - ADD COLUMN GENERATED based on existing JSON Column:
+
+```
+ALTER TABLE MyEvent
+ADD COLUMN ExtractedEventId BIGINT GENERATED ALWAYS AS (JSON_UNQUOTE(JSON_EXTRACT(JsonDetails, '$.EventId'))) VIRTUAL;
+CREATE UNIQUE INDEX idx_unique_eventid ON MyEvent(ExtractedEventId);
+```
+
+✅ This will create new COLUMN `ExtractedEventId` and auto-fill values from COLUMN `JsonDetails`.
+
+4. Try to insert the same row from step 2
+
+
 
 ## Known Issues
 
