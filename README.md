@@ -175,6 +175,8 @@ INSERT INTO MyDatabase.MyEvent (MyEventTypeId, JsonDetails, CreatedAt)
 VALUES (1, '{"UserId": 232323, "EventId": 363636, "EventType": 1, "Properties": {"Amount": 5, "Product": "Soap", "Username": "iamgroot", "ThingId": "505050", "EmailHost": "gmail.com", "EmailAddress": "iamgroot@gmail.com", "PaymentMethod": {"PaymentType": "Money", "PaymentGateway": "Gates of Hell"}, "CurrentStatus": "pending" }}', '2024-01-22 10:22:15');
 ```
 
+![column-generated-1](./res/column-generated-1.png)
+
 3. Alter TABLE `MyEvent` - ADD COLUMN GENERATED based on existing JSON Column:
 
 ```
@@ -185,9 +187,13 @@ CREATE UNIQUE INDEX idx_unique_eventid ON MyEvent(ExtractedEventId);
 
 ✅ This will create new COLUMN `ExtractedEventId` and auto-fill values from COLUMN `JsonDetails`.
 
+![column-generated-2](./res/column-generated-2.png)
+
 4. Try to INSERT the same row from step 2:
 
 ❌ ERROR: Error Code: 1062. Duplicate entry '363636' for key 'MyEvent.idx_unique_eventid'
+
+![column-generated-3](./res/column-generated-3.jpg)
 
 ## Known Issues
 
